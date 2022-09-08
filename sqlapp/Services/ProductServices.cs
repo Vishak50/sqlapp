@@ -3,22 +3,18 @@ using System.Data.SqlClient;
 
 namespace sqlapp.Services
 {
-    public class ProductServices
+    public class ProductServices : IProductServices
     {
-        private static string db_source = "app3000.database.windows.net";
-        private static string db_user = "sqladmin";
-        private static string db_password = "Shock@azureapp3000";
-        private static string db_database = "appdb";
+        private readonly IConfiguration _configuration;
+
+        public ProductServices(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         private SqlConnection GetConnection()
         {
-            var _builder = new SqlConnectionStringBuilder();
-            _builder.DataSource = db_source;
-            _builder.UserID = db_user;
-            _builder.Password = db_password;
-            _builder.InitialCatalog = db_database;
-
-            return new SqlConnection(_builder.ConnectionString);
+            return new SqlConnection(_configuration.GetConnectionString("SQLConnection"));
         }
 
         public List<Product> GetProducts()

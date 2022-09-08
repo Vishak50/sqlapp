@@ -1,5 +1,8 @@
+using sqlapp.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<IProductServices, ProductServices>();
 // Add services to the container.
 builder.Services.AddRazorPages();
 
