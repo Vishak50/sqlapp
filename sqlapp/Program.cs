@@ -8,13 +8,17 @@ var connectionString = "Endpoint=https://azureapp.azconfig.io;Id=+6vq-lh-s0:H4qc
 builder.Host.ConfigureAppConfiguration(app =>
 {
     app.AddAzureAppConfiguration(options => 
-        options.Connect(connectionString).UseFeatureFlags()
+        options.Connect(connectionString).UseFeatureFlags(featureFlagOptions =>
+        {
+            featureFlagOptions.CacheExpirationInterval = TimeSpan.FromSeconds(3d);
+        })
     );
 });
 
 builder.Services.AddTransient<IProductServices, ProductServices>();
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddAzureAppConfiguration();
 builder.Services.AddFeatureManagement();
 
 var app = builder.Build();
