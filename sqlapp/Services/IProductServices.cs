@@ -5,5 +5,7 @@ namespace sqlapp.Services
     public interface IProductServices
     {
         List<Product> GetProducts();
+
+        Task<bool> isBeta();
     }
 }
